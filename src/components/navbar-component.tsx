@@ -7,7 +7,7 @@ export default function NavbarComponent() {
     <nav className='border'>
       <div className='max-w-screen-xl flex flex-wrap justify-between items-center mx-auto p-5'>
         <Link
-          href=''
+          href={process.env.NEXT_PUBLIC_APP_URL || "/"}
           className='text-lg font-bold text-slate-800'>
           Open Market
         </Link>
