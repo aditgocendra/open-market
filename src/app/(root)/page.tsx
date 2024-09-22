@@ -25,7 +25,7 @@ export default async function Home() {
                 key={category.id}
                 className='h-[100px] rounded-md shadow-sm border flex flex-col justify-center items-center text-center '>
                 <Link
-                  href={`/category/${category.id}`}
+                  href={`/product?category=${category.id}`}
                   className='flex flex-col justify-center items-center text-center'>
                   <Image
                     src={`/images/icons/${category.icon}`}
