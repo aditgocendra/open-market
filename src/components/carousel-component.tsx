@@ -14,7 +14,6 @@ export const CarouselComponent = () => {
       <Image
         src='/images/banner/banner-default-1.png'
         className='rounded-lg'
-        objectFit='cover'
         width={960}
         height={240}
         alt='banner'
@@ -23,7 +22,6 @@ export const CarouselComponent = () => {
       <Image
         src='/images/banner/banner-default-2.png'
         className='rounded-xl'
-        objectFit='cover'
         width={960}
         height={240}
         alt='banner'
@@ -32,7 +30,6 @@ export const CarouselComponent = () => {
       <Image
         src='/images/banner/banner-default-3.png'
         className='rounded-lg'
-        objectFit='cover'
         width={960}
         height={240}
         alt='banner'
