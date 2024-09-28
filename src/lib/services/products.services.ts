@@ -30,6 +30,8 @@ export const getProductsService = async ({
         name: true,
         price: true,
         productImages: { select: { image: true }, where: { isThumb: true } },
+        detailProduct: { select: { rating: true, totalSold: true } },
+        store: { select: { location: { select: { regencies: true } } } },
       },
       orderBy: {
         ...(filter === "latest" ? { createdAt: "desc" } : {}),
