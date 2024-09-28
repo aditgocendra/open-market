@@ -41,9 +41,13 @@ export default async function ProductPage({
             return (
               <ProductComponent
                 key={index}
+                id={product.id}
                 name={product.name}
-                image={product.ProductImages[0].image}
+                image={product.productImages[0].image}
                 price={product.price}
+                rating={product.detailProduct!.rating!}
+                sold={product.detailProduct!.totalSold!}
+                province={product.store.location.regencies}
               />
             );
           })}
