@@ -13,7 +13,7 @@ model Category {
   name        String        @unique @db.VarChar(24)
   icon        String        @unique
   createdAt   DateTime      @default(now())
-  SubCategory SubCategory[]
+  subCategory SubCategory[]
   Product     Product[]
 }
 
@@ -24,6 +24,43 @@ model SubCategory {
   Product    Product[]
 }
 
+model User {
+  uid       String     @id @default(uuid())
+  email     String     @unique @db.VarChar(128)
+  username  String     @unique @db.VarChar(24)
+  avatar    String?
+  password  String
+  store     Store?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Location  Location[]
+}
+
+model Store {
+  id         String    @id @default(cuid())
+  name       String    @unique @db.VarChar(24)
+  logo       String?
+  user       User      @relation(fields: [userId], references: [uid])
+  userId     String    @unique
+  location   Location  @relation(fields: [locationId], references: [id])
+  locationId String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  product    Product[]
+}
+
+model Location {
+  id         String @id @default(cuid())
+  province   String
+  district   String
+  village    String
+  postalCode String @db.Char(5)
+  address    String @db.VarChar(256)
+  user       User   @relation(fields: [userId], references: [uid])
+  userId     String
+  store      Store?
+}
+
 model Product {
   id              String           @id @default(cuid())
   name            String           @db.VarChar(128)
@@ -32,9 +69,11 @@ model Product {
   idCategory      String
   subCategory     SubCategory      @relation(fields: [nameSubCategory], references: [name])
   nameSubCategory String
-  DetailProduct   DetailProduct?
-  ProductImages   ProductImage[]
-  VariantProduct  VariantProduct[]
+  store           Store            @relation(fields: [idStore], references: [id])
+  idStore         String
+  detailProduct   DetailProduct?
+  productImages   ProductImage[]
+  variantProduct  VariantProduct[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 }
