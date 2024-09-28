@@ -52,6 +52,7 @@ model Store {
 model Location {
   id         String @id @default(cuid())
   province   String
+  regencies  String
   district   String
   village    String
   postalCode String @db.Char(5)
