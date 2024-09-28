@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <div className='w-full h-screen flex flex-col'>
+        <div className='w-full h-screen'>
           <NavbarComponent />
           {children}
           <FooterComponent />
