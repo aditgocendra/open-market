@@ -11,37 +11,74 @@ export const getProductsService = async ({
 }: {
   idCategory?: string;
   subCategory?: string;
-  keyword: string;
+  keyword?: string;
+  filter?: string;
   take: number;
   skip: number;
-  filter: string;
 }) => {
   try {
-    return await prisma.product.findMany({
-      take,
-      skip,
-      where: {
-        name: { contains: keyword, mode: "insensitive" },
-        ...(idCategory ? { idCategory } : {}),
-        ...(subCategory ? { nameSubCategory: subCategory } : {}),
-      },
-      select: {
-        id: true,
-        name: true,
-        price: true,
-        productImages: { select: { image: true }, where: { isThumb: true } },
-        detailProduct: { select: { rating: true, totalSold: true } },
-        store: { select: { location: { select: { regencies: true } } } },
-      },
-      orderBy: {
-        ...(filter === "latest" ? { createdAt: "desc" } : {}),
-        detailProduct: {
-          ...(filter === "bestSeller" ? { totalSold: "desc" } : {}),
-          ...(filter === "favorite" ? { totalFav: "desc" } : {}),
-          ...(filter === "trending" ? { seen: "desc" } : {}),
+    const [products, count] = await prisma.$transaction([
+      prisma.product.findMany({
+        take,
+        skip,
+        where: {
+          name: { contains: keyword, mode: "insensitive" },
+          ...(idCategory ? { idCategory } : {}),
+          ...(subCategory ? { nameSubCategory: subCategory } : {}),
         },
-      },
-    });
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          productImages: { select: { image: true }, where: { isThumb: true } },
+          detailProduct: { select: { rating: true, totalSold: true } },
+          store: { select: { location: { select: { regencies: true } } } },
+        },
+        orderBy: {
+          ...(filter === "latest" ? { createdAt: "desc" } : {}),
+          detailProduct: {
+            ...(filter === "bestSeller" ? { totalSold: "desc" } : {}),
+            ...(filter === "favorite" ? { totalFav: "desc" } : {}),
+            ...(filter === "trending" ? { seen: "desc" } : {}),
+          },
+        },
+      }),
+      prisma.product.count({
+        where: {
+          name: { contains: keyword, mode: "insensitive" },
+          ...(idCategory ? { idCategory } : {}),
+          ...(subCategory ? { nameSubCategory: subCategory } : {}),
+        },
+      }),
+    ]);
+
+    return { products, count };
+
+    // return await prisma.product.findMany({
+    //   take,
+    //   skip,
+    //   where: {
+    //     name: { contains: keyword, mode: "insensitive" },
+    //     ...(idCategory ? { idCategory } : {}),
+    //     ...(subCategory ? { nameSubCategory: subCategory } : {}),
+    //   },
+    //   select: {
+    //     id: true,
+    //     name: true,
+    //     price: true,
+    //     productImages: { select: { image: true }, where: { isThumb: true } },
+    //     detailProduct: { select: { rating: true, totalSold: true } },
+    //     store: { select: { location: { select: { regencies: true } } } },
+    //   },
+    //   orderBy: {
+    //     ...(filter === "latest" ? { createdAt: "desc" } : {}),
+    //     detailProduct: {
+    //       ...(filter === "bestSeller" ? { totalSold: "desc" } : {}),
+    //       ...(filter === "favorite" ? { totalFav: "desc" } : {}),
+    //       ...(filter === "trending" ? { seen: "desc" } : {}),
+    //     },
+    //   },
+    // });
   } catch (error) {
     throw new Error("Failed to fetch category");
   }

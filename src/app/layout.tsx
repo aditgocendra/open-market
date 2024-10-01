@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NavbarComponent from "@/components/navbar-component";
-import FooterComponent from "@/components/footer-component";
 
 export const metadata: Metadata = {
   title: "Open Market",
@@ -16,11 +14,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <div className='w-full h-screen'>
-          <NavbarComponent />
-          {children}
-          <FooterComponent />
-        </div>
+        <div className='w-full h-screen'>{children}</div>
       </body>
     </html>
   );
