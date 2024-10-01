@@ -1,12 +1,14 @@
 import Image from "next/image";
-import { getCategoriesAction } from "./actions";
+import { getCategoriesAction, getProductsAction } from "./actions";
 import { CarouselComponent } from "@/components/carousel-component";
 import Link from "next/link";
 import { HiOutlineFilter } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
+import ProductComponent from "@/components/product-component";
 
 export default async function Home() {
   const categories = await getCategoriesAction({ take: 10, skip: 0 });
+  const products = await getProductsAction({ take: 10, skip: 0 });
 
   return (
     <div className='max-w-screen-xl mx-auto m-4'>
@@ -86,6 +88,23 @@ export default async function Home() {
             </div>
           </button>
         </div>
+      </div>
+      <div className='grid grid-cols-6 gap-5 items-center'>
+        {products.data &&
+          products.data.map((product, index) => {
+            return (
+              <ProductComponent
+                key={index}
+                id={product.id}
+                name={product.name}
+                image={product.productImages[0].image}
+                price={product.price}
+                rating={product.detailProduct!.rating!}
+                sold={product.detailProduct!.totalSold!}
+                regencies={product.store.location.regencies}
+              />
+            );
+          })}
       </div>
     </div>
   );
