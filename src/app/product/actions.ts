@@ -22,12 +22,18 @@ export const getProductsAction = async ({
   skip: number;
   filter: string;
 }) => {
-  return await getProductsService({
-    idCategory,
-    subCategory,
-    keyword,
-    take,
-    skip,
-    filter,
-  });
+  try {
+    const r = await getProductsService({
+      idCategory,
+      subCategory,
+      keyword,
+      take,
+      skip,
+      filter,
+    });
+
+    return { data: r.products, count: r.count };
+  } catch (error: unknown) {
+    return { errorMessage: (error as Error).message };
+  }
 };

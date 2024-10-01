@@ -35,9 +35,9 @@ export default async function ProductPage({
       <SidebarProductPageComponent subCategories={subCategories} />
 
       {/* Content */}
-      {products.length > 0 ? (
+      {products.data ? (
         <div className='grid grid-cols-4 gap-5 items-center ml-10'>
-          {products.map((product, index) => {
+          {products.data.map((product, index) => {
             return (
               <ProductComponent
                 key={index}
