@@ -35,7 +35,7 @@ export default async function ProductPage({
       <SidebarProductPageComponent subCategories={subCategories} />
 
       {/* Content */}
-      {products.data ? (
+      {products.count != 0 && products.data ? (
         <div className='grid grid-cols-4 gap-5 items-center ml-10'>
           {products.data.map((product, index) => {
             return (
