@@ -127,7 +127,7 @@ export default function ProductDetailComponent({
               </div>
             </div>
             <Link
-              href='#'
+              href={`/store/${product.store.id}`}
               className='text-sm font-semibold'>
               Store Detail
             </Link>
