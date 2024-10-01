@@ -12,6 +12,7 @@ export interface ProductInfoDto {
   images: string[];
   variant: ProductVariantDto[];
   store: {
+    id: string;
     name: string;
     logo: string | null;
   };
@@ -23,4 +24,14 @@ export interface ProductVariantDto {
   price: number;
   stock: number;
   image: string | null;
+}
+
+export interface ProductCardInfoDto {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  rating: number;
+  totalSold: number;
+  regencies: string;
 }
