@@ -9,7 +9,7 @@ export default function ProductComponent({
   image,
   rating,
   sold,
-  province,
+  regencies,
 }: {
   id: string;
   name: string;
@@ -17,7 +17,7 @@ export default function ProductComponent({
   price: number;
   rating: number;
   sold: number;
-  province: string;
+  regencies: string;
 }) {
   return (
     <Link
@@ -46,7 +46,7 @@ export default function ProductComponent({
           <p>{`${rating} | ${sold} Sold`}</p>
         </div>
 
-        <p className='text-xs text-gray-500'>{province}</p>
+        <p className='text-xs text-gray-500'>{regencies}</p>
       </div>
     </Link>
   );

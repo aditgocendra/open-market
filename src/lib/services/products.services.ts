@@ -1,5 +1,5 @@
 import prisma from "../../lib/prisma.init";
-import { ProductInfoDto } from "../dto/product.dto";
+import { ProductCardInfoDto, ProductInfoDto } from "../dto/product.dto";
 
 export const getProductsService = async ({
   idCategory,
@@ -87,6 +87,7 @@ export const getProductInfoService = async (id: string) => {
           };
         }) || [],
       store: {
+        id: r?.store?.id || "",
         name: r?.store?.name || "",
         logo: r?.store?.logo || null,
       },
@@ -95,5 +96,50 @@ export const getProductInfoService = async (id: string) => {
     return productInfo;
   } catch (error) {
     throw new Error("Failed to fetch product");
+  }
+};
+
+export const getProductStoreService = async (idStore: string) => {
+  try {
+    const r = await prisma.product.findMany({
+      where: { idStore },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        detailProduct: {
+          select: {
+            rating: true,
+            totalSold: true,
+          },
+        },
+        productImages: { select: { image: true }, where: { isThumb: true } },
+        store: {
+          select: {
+            location: {
+              select: {
+                regencies: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const storeProducts: ProductCardInfoDto[] = r.map((p) => {
+      return {
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        image: p.productImages[0]!.image,
+        rating: p.detailProduct!.rating,
+        totalSold: p.detailProduct!.totalSold,
+        regencies: p.store.location.regencies,
+      };
+    });
+
+    return storeProducts;
+  } catch (error) {
+    throw new Error("Something went wrong");
   }
 };

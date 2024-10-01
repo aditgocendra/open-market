@@ -47,7 +47,7 @@ export default async function ProductPage({
                 price={product.price}
                 rating={product.detailProduct!.rating!}
                 sold={product.detailProduct!.totalSold!}
-                province={product.store.location.regencies}
+                regencies={product.store.location.regencies}
               />
             );
           })}
