@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 import {
   categoriesMaster,
   productMaster,
@@ -18,12 +19,53 @@ async function main() {
     data: subCategoriesMaster,
   });
 
+  // Create Role
+  await prisma.role.createMany({
+    data: [
+      {
+        role: "admin",
+      },
+      {
+        role: "user",
+      },
+    ],
+  });
+
+  // Get Role Admin
+  const roleAdmin = await prisma.role.findFirst({ where: { role: "admin" } });
+
+  // Hash Pass Admin
+  const hashAdmin = await bcrypt.hash(
+    "admin1234",
+    parseInt(process.env.SALT_ROUNDS as string)
+  );
+
+  // Create admin
+  await prisma.user.create({
+    data: {
+      username: "Admin Test",
+      email: "admin_test@gmail.com",
+      password: hashAdmin,
+      roleId: roleAdmin!.id,
+    },
+  });
+
+  // Get Role User
+  const roleUser = await prisma.role.findFirst({ where: { role: "user" } });
+
+  // Hash Pass User
+  const hashUser = await bcrypt.hash(
+    "user1234",
+    parseInt(process.env.SALT_ROUNDS as string)
+  );
+
   // Create user
   const user = await prisma.user.create({
     data: {
       username: "Test",
-      email: "test@123",
-      password: "admin123",
+      email: "user_test@gmail.com",
+      password: hashUser,
+      roleId: roleUser!.id,
     },
   });
 

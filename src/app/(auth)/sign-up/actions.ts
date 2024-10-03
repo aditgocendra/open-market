@@ -1,5 +1,6 @@
 "use server";
 
+import { getRoleService } from "@/lib/services/role.services";
 import { createUserService } from "@/lib/services/user.services";
 import { SignUpFormSchema } from "@/lib/validation/user.validation";
 import bcrypt from "bcrypt";
@@ -22,10 +23,13 @@ export async function signUpAction(_: any, formData: FormData) {
   );
 
   try {
+    const role = await getRoleService("user");
+
     await createUserService({
       username,
       email,
       password: hash,
+      roleId: role!.id,
     });
 
     return { success: true };

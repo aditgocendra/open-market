@@ -30,10 +30,18 @@ model User {
   username  String     @unique @db.VarChar(24)
   avatar    String?
   password  String
+  role      Role       @relation(fields: [roleId], references: [id])
+  roleId    String
   store     Store?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Location  Location[]
+}
+
+model Role {
+  id   String @id @default(cuid())
+  role String @unique @db.Char(20)
+  User User[]
 }
 
 model Store {
