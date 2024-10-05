@@ -1,8 +1,23 @@
 import Link from "next/link";
 import { IoSearch } from "react-icons/io5";
 import { LinkButtonComponent } from "./link-component";
+import { ButtonDefaultComponent } from "./button-component";
 
-export default function NavbarComponent() {
+import { cookies } from "next/headers";
+import { decrypt } from "@/lib/jwt";
+import { deleteSession } from "@/lib/session";
+import { redirect } from "next/navigation";
+
+export default async function NavbarComponent() {
+  const cookie = cookies().get("session")?.value;
+  const session = await decrypt(cookie!);
+
+  const onSignOut = async () => {
+    "use server";
+    await deleteSession();
+    redirect("/sign-in");
+  };
+
   return (
     <nav className='border'>
       <div className='max-w-screen-xl flex flex-wrap justify-between items-center mx-auto p-5'>
@@ -27,19 +42,17 @@ export default function NavbarComponent() {
           </button>
         </div>
 
-        <LinkButtonComponent
-          href='/sign-up'
-          title='Sign up'
-        />
-        {/* <Link href={"/sign-in"}>Sign in</Link> */}
-        {/* {!session ? (
-       
-     ) : (
-       <ButtonComponent
-         title='Sign Out'
-         click={onSignOut}
-       />
-     )} */}
+        {!session ? (
+          <LinkButtonComponent
+            href='/sign-in'
+            title='Sign In'
+          />
+        ) : (
+          <ButtonDefaultComponent
+            title='Sign Out'
+            click={onSignOut}
+          />
+        )}
       </div>
     </nav>
   );
