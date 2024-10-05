@@ -2,6 +2,7 @@ import Link from "next/link";
 import { IoSearch } from "react-icons/io5";
 import { LinkButtonComponent } from "./link-component";
 import { ButtonDefaultComponent } from "./button-component";
+import Image from "next/image";
 
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/jwt";
@@ -20,11 +21,14 @@ export default async function NavbarComponent() {
 
   return (
     <nav className='border'>
-      <div className='max-w-screen-xl flex flex-wrap justify-between items-center mx-auto p-5'>
-        <Link
-          href={process.env.NEXT_PUBLIC_APP_URL || "/"}
-          className='text-lg font-bold text-slate-800'>
-          Open Market
+      <div className='max-w-screen-xl flex flex-wrap justify-between items-center mx-auto p-2'>
+        <Link href={process.env.NEXT_PUBLIC_APP_URL || "/"}>
+          <Image
+            width={72}
+            height={72}
+            alt='Logo'
+            src='/images/logo/open-market-logo.png'
+          />
         </Link>
 
         <div className='w-1/2 md:w-96 relative'>
