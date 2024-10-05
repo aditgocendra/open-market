@@ -1,4 +1,25 @@
+"use client";
+
 import { useFormStatus } from "react-dom";
+
+export const ButtonDefaultComponent = ({
+  title,
+  click,
+  size = "sm",
+}: {
+  title: string;
+  size?: string;
+  click?: () => void;
+}) => {
+  return (
+    <button
+      type='button'
+      className={`bg-slate-800 text-white text-${size} rounded-md px-2.5 py-1.5 mr-1 hover:bg-slate-700`}
+      onClick={() => click && click()}>
+      {title}
+    </button>
+  );
+};
 
 export const ButtonTextComponent = ({
   text,
