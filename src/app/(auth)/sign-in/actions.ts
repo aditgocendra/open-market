@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { SignInFormSchema } from "@/lib/validation/user.validation";
 import { getUserByEmailService } from "@/lib/services/user.services";
 import bcrypt from "bcrypt";
+import { createSession } from "@/lib/session";
 
 export async function signInAction(_: any, formData: FormData) {
   // Validation Fields
@@ -25,6 +26,9 @@ export async function signInAction(_: any, formData: FormData) {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return { errorMessage: "Invalid email or password" };
     }
+
+    // Create Session
+    await createSession(user.uid, user.roleId);
   } catch (error: any) {
     return { errorMessage: error.message };
   }
