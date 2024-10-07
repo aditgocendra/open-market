@@ -30,6 +30,7 @@ model User {
   username  String     @unique @db.VarChar(24)
   avatar    String?
   password  String
+  verified  Boolean    @default(false)
   role      Role       @relation(fields: [roleId], references: [id])
   roleId    String
   store     Store?
