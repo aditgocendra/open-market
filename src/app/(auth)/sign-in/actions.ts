@@ -27,6 +27,14 @@ export async function signInAction(_: any, formData: FormData) {
       return { errorMessage: "Invalid email or password" };
     }
 
+    // Check user is verified or not
+    if (!user.verified) {
+      return {
+        errorMessage:
+          "Your email is not verified. Please verify your email first",
+      };
+    }
+
     // Create Session
     await createSession(user.uid, user.roleId);
   } catch (error: any) {
