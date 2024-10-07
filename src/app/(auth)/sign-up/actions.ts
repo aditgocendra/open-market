@@ -1,5 +1,7 @@
 "use server";
 
+import { sendMail } from "@/lib/emails/send-email";
+import { encrypt } from "@/lib/jwt";
 import { getRoleService } from "@/lib/services/role.services";
 import { createUserService } from "@/lib/services/user.services";
 import { SignUpFormSchema } from "@/lib/validation/user.validation";
@@ -25,11 +27,20 @@ export async function signUpAction(_: any, formData: FormData) {
   try {
     const role = await getRoleService("user");
 
-    await createUserService({
+    const user = await createUserService({
       username,
       email,
       password: hash,
       roleId: role!.id,
+    });
+
+    // Send Email Verification
+    const verifToken = await encrypt({ userId: user.uid });
+
+    await sendMail({
+      email,
+      username,
+      verifToken,
     });
 
     return { success: true };

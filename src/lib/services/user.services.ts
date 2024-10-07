@@ -23,3 +23,19 @@ export const getUserByEmailService = async (email: string) => {
     throw new Error("Something wrong, please wait a seconds");
   }
 };
+
+export const getUserByUidService = async (uid: string) => {
+  try {
+    return await prisma.user.findFirst({ where: { uid } });
+  } catch (error) {
+    throw new Error("Something wrong, please wait a seconds");
+  }
+};
+
+export const updateUserService = async (uid: string, data: any) => {
+  try {
+    return await prisma.user.update({ where: { uid }, data });
+  } catch (error) {
+    throw new Error("Something wrong, please wait a seconds");
+  }
+};
