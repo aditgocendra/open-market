@@ -21,6 +21,23 @@ export const ButtonDefaultComponent = ({
   );
 };
 
+export const ButtonOutlineComponent = ({
+  title,
+  click,
+}: {
+  title: string;
+  click?: () => void;
+}) => {
+  return (
+    <button
+      type='button'
+      className='w-full border border-slate-800 text-slate-800 px-4 py-2 rounded-md mb-3'
+      onClick={() => click && click()}>
+      {title}
+    </button>
+  );
+};
+
 export const ButtonTextComponent = ({
   text,
   isActive,
@@ -32,9 +49,7 @@ export const ButtonTextComponent = ({
 }) => {
   return (
     <button
-      className={`mb-2 text-sm text-slate-800 ${
-        isActive ? "font-semibold" : ""
-      }`}
+      className={`text-sm text-slate-800 ${isActive ? "font-semibold" : ""}`}
       onClick={() => onClickButton && onClickButton()}>
       {text}
     </button>
