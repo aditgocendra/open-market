@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { CheckoutComponent } from "../../components/checkout-component";
+import { CheckoutComponent } from "./checkout-component";
 import { ProductInfoDto } from "@/lib/dto/product.dto";
 import { toRupiahFormat } from "@/lib/utils/format";
 import Link from "next/link";
@@ -13,7 +13,12 @@ export default function ProductDetailComponent({
   product: ProductInfoDto;
 }) {
   const [imageActive, setImageActive] = useState(product.images[0]);
-  const [priceActive, setPriceActive] = useState(product.price);
+  const [priceActive, setPriceActive] = useState(
+    product.variant[0]?.price || product.price
+  );
+  const [variantActive, setVariantActive] = useState(
+    product.variant !== null ? product.variant[0] : null
+  );
 
   return (
     <div className='max-w-screen-xl mx-auto'>
@@ -72,6 +77,7 @@ export default function ProductDetailComponent({
                       onClick={() => {
                         variant.image && setImageActive(variant.image);
                         setPriceActive(variant.price);
+                        setVariantActive(variant);
                       }}>
                       <Image
                         src={`/images/product/${variant.image}`}
@@ -139,7 +145,11 @@ export default function ProductDetailComponent({
 
         {/* COL 3 */}
         <div>
-          <CheckoutComponent price={priceActive} />
+          <CheckoutComponent
+            productId={product.id}
+            price={priceActive}
+            variantId={variantActive?.id}
+          />
         </div>
       </div>
     </div>
