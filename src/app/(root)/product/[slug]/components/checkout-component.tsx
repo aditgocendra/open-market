@@ -1,12 +1,22 @@
 "use client";
 
+import { ButtonOutlineComponent } from "@/components/button-component";
 import { toRupiahFormat } from "@/lib/utils/format";
 import { useState } from "react";
 
 // Icon
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
-export const CheckoutComponent = ({ price }: { price: number }) => {
+import { addProductToCartAction } from "../actions";
+export const CheckoutComponent = ({
+  productId,
+  variantId,
+  price,
+}: {
+  productId: string;
+  variantId?: number;
+  price: number;
+}) => {
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantity = (operation: boolean) => {
@@ -42,9 +52,13 @@ export const CheckoutComponent = ({ price }: { price: number }) => {
         </button>
       </div>
 
-      <button className='w-full border border-slate-800 text-slate-800 px-4 py-2 rounded-md mb-3'>
-        Add
-      </button>
+      <ButtonOutlineComponent
+        title='Add to cart'
+        click={() =>
+          addProductToCartAction({ qty: quantity, productId, variantId })
+        }
+      />
+
       <button className='w-full bg-slate-800 text-white px-4 py-2 rounded-md'>
         Buy
       </button>

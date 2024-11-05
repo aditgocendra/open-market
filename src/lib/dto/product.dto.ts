@@ -1,4 +1,5 @@
 export interface ProductInfoDto {
+  id: string;
   name: string;
   category: string;
   subCategory: string;

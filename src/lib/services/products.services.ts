@@ -53,32 +53,6 @@ export const getProductsService = async ({
     ]);
 
     return { products, count };
-
-    // return await prisma.product.findMany({
-    //   take,
-    //   skip,
-    //   where: {
-    //     name: { contains: keyword, mode: "insensitive" },
-    //     ...(idCategory ? { idCategory } : {}),
-    //     ...(subCategory ? { nameSubCategory: subCategory } : {}),
-    //   },
-    //   select: {
-    //     id: true,
-    //     name: true,
-    //     price: true,
-    //     productImages: { select: { image: true }, where: { isThumb: true } },
-    //     detailProduct: { select: { rating: true, totalSold: true } },
-    //     store: { select: { location: { select: { regencies: true } } } },
-    //   },
-    //   orderBy: {
-    //     ...(filter === "latest" ? { createdAt: "desc" } : {}),
-    //     detailProduct: {
-    //       ...(filter === "bestSeller" ? { totalSold: "desc" } : {}),
-    //       ...(filter === "favorite" ? { totalFav: "desc" } : {}),
-    //       ...(filter === "trending" ? { seen: "desc" } : {}),
-    //     },
-    //   },
-    // });
   } catch (error) {
     throw new Error("Failed to fetch category");
   }
@@ -102,6 +76,7 @@ export const getProductInfoService = async (id: string) => {
     });
 
     const productInfo: ProductInfoDto = {
+      id: r?.id || "",
       name: r?.name || "",
       category: r?.category?.name || "",
       subCategory: r?.nameSubCategory || "",
