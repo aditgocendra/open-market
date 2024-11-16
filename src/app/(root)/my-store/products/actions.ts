@@ -1,6 +1,4 @@
 import { getProductsService } from "@/lib/services/products.services";
-import { getStoreByIdService } from "@/lib/services/store.services";
-import { getUidSession } from "@/lib/session";
 
 export default async function getProductsAction({
   take,
@@ -9,11 +7,11 @@ export default async function getProductsAction({
   take: number;
   skip: number;
 }) {
-  const uid = await getUidSession();
-  const store = await getStoreByIdService(uid);
+  // const uid = await getUidSession();
+  // const store = await getStoreByIdService(uid);
 
   try {
-    const r = await getProductsService({ take, skip, idStore: store.id });
+    const r = await getProductsService({ take, skip });
 
     return { data: r.products, count: r.count };
   } catch (error) {
