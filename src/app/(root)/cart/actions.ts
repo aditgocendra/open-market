@@ -1,12 +1,11 @@
 "use server";
 
-import { decrypt } from "@/lib/jwt";
 import {
   getCartByUidService,
   removeCartService,
   updateCartService,
 } from "@/lib/services/cart.services";
-import { cookies } from "next/headers";
+import { getUidSession } from "@/lib/session";
 
 export const getCartAction = async ({
   take,
@@ -15,10 +14,7 @@ export const getCartAction = async ({
   take: number;
   skip: number;
 }) => {
-  const cookie = cookies().get("session")?.value;
-  const session = await decrypt(cookie!);
-
-  const uid = session?.userId as string;
+  const uid = await getUidSession();
   return await getCartByUidService({ uid, take, skip });
 };
 
