@@ -25,7 +25,6 @@ export const createProductAction = async (_: any, formData: FormData) => {
   );
 
   if (!validation.success) {
-    console.log(validation.error.flatten().fieldErrors);
     return { errors: validation.error.flatten().fieldErrors };
   }
 
