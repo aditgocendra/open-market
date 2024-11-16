@@ -88,6 +88,7 @@ async function main() {
       name: "Test Store",
       userId: user.uid,
       logo: "electron-logo.png",
+      description: "This is description",
       locationId: location.id,
     },
   });
