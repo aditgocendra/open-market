@@ -1,5 +1,9 @@
 import prisma from "../../lib/prisma.init";
-import { ProductCardInfoDto, ProductInfoDto } from "../dto/product.dto";
+import {
+  ProductCardInfoDto,
+  ProductInfoDto,
+  ProductInputDto,
+} from "../dto/product.dto";
 
 export const getProductsService = async ({
   idCategory,
@@ -146,11 +150,47 @@ export const getProductStoreService = async (idStore: string) => {
         image: p.productImages[0]!.image,
         rating: p.detailProduct!.rating,
         totalSold: p.detailProduct!.totalSold,
-        regencies: p.store.location.regencies,
+        regencies: p.store!.location!.regencies,
       };
     });
 
     return storeProducts;
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+};
+
+export const createProductService = async ({
+  data,
+}: {
+  data: ProductInputDto;
+}) => {
+  const images = data.images.map((i, idx) => ({
+    image: i,
+    isThumb: idx === 0,
+  }));
+
+  try {
+    return await prisma.product.create({
+      data: {
+        name: data.name,
+        price: data.price,
+        idCategory: data.idCategory,
+        nameSubCategory: data.subCategoryName,
+        idStore: data.idStore,
+        detailProduct: {
+          create: {
+            description: data.description,
+            totalStock: data.stock,
+          },
+        },
+        productImages: {
+          createMany: {
+            data: images,
+          },
+        },
+      },
+    });
   } catch (error) {
     throw new Error("Something went wrong");
   }
