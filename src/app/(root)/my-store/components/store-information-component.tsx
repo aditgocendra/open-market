@@ -33,6 +33,7 @@ export default function StoreInformationComponent({
         className='p-3 my-2'>
         <ImageInputComponent
           input='image'
+          size={80}
           defaultValue={storeInfo && `/images/logo/${storeInfo.logo}`}
         />
 
