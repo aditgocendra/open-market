@@ -101,7 +101,7 @@ export default async function Home() {
                 price={product.price}
                 rating={product.detailProduct!.rating!}
                 sold={product.detailProduct!.totalSold!}
-                regencies={product.store.location.regencies}
+                regencies={product.store.location?.regencies || ""}
               />
             );
           })}
