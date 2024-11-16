@@ -36,3 +36,14 @@ export interface ProductCardInfoDto {
   totalSold: number;
   regencies: string;
 }
+
+export interface ProductInputDto {
+  name: string;
+  idCategory: string;
+  subCategoryName: string;
+  price: number;
+  stock: number;
+  description: string;
+  images: string[];
+  idStore: string;
+}
