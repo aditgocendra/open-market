@@ -125,7 +125,7 @@ export default function FormProductComponent() {
               input='name'
               type='text'
               placeholder='Product Name'
-              errorMessage={state?.errors.name?.join()}
+              errorMessage={state?.errors?.name?.join()}
             />
 
             <div className='w-full flex justify-between border rounded-md mb-6 p-2'>
@@ -159,7 +159,7 @@ export default function FormProductComponent() {
             <TextAreaComponent
               input='description'
               placeholder='Description'
-              errorMessage={state?.errors.description?.join()}
+              errorMessage={state?.errors?.description?.join()}
             />
           </div>
         </div>
@@ -175,14 +175,14 @@ export default function FormProductComponent() {
               input='price'
               type='number'
               placeholder='Price'
-              errorMessage={state?.errors.price?.join()}
+              errorMessage={state?.errors?.price?.join()}
             />
 
             <TextInputComponent
               input='stock'
               type='number'
               placeholder='Stock'
-              errorMessage={state?.errors.stock?.join()}
+              errorMessage={state?.errors?.stock?.join()}
             />
 
             <ButtonOutlineComponent
